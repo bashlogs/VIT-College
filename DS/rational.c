@@ -1,26 +1,40 @@
 #include<stdio.h>
+#include<string.h>
 
-gcd(int a, int b){
-  if(a == b){
+struct rational{
+  float num;
+  float deno;
+};
+
+int gcd(int a, int b){
+  if(b == 0){
     return (a);
   }
   else{
     if(a > b){
-      a--;
-      gcd (a, b);
+      gcd (b, a % b);
     }
     else{
-      b--;
-      gcd (a,b);
+      gcd (a,b % a);
     }
   }
 }
 
-typedef struct P{
-  int num;
-  int deno;
+void reduce(struct rational *p){
+  int c = gcd(p->num, p->deno);
+  printf("%d\n",c);
+  p->num = p->num/c;
+  p->deno = p->deno/c;
 }
+
 int main(){
   int a,b;
-  c = gcd ()
+  struct rational p;
+  p.num = 10;
+  p.deno = 8;
+  reduce(&p);
+
+  printf("The value of the p.num = %f\n",p.num);
+  printf("The value of the p.deno = %f",p.deno);
+  return 0;
 }
