@@ -13,9 +13,10 @@ void merge(int a[], int low, int mid, int high){
   int i = low;
   int j = mid + 1;
   int k = 0;
-  int b[high];
+  int b[high+1];
   while( i<=mid && j<=high){
-    if(a[i] > a[j]){
+    printf("%d	%d\n",a,b);
+    if(a[i] >= a[j]){
       b[k] = a[j];
       j++;
     }
@@ -25,17 +26,53 @@ void merge(int a[], int low, int mid, int high){
     }
     k++;
   }
-  if(i > mid){
-    for (i=j; i<=high; i++){
-      b[k++] = a[i];
-    }
+  while(i<mid)
+  	b[k++] = a[i++];
+  	
+  while(j<high)
+  	b[k++] = a[j++];
+  	
+  for(int i=0; i<high+1; i++)
+  {
+  	a[i] = b[i];
   }
-  else{
-    for(i=j;i<=mid;i++){
-      b[k++] = a[i];
+  
+}
+void merge1(int arr[], int p, int q, int r) {
+    int n1 = q - p + 1;
+    int n2 = r - q;
+
+    int L[n1], M[n2];
+
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[p + i];
+    for (int j = 0; j < n2; j++)
+        M[j] = arr[q + 1 + j];
+    int i, j, k;
+    i = 0;
+    j = 0;
+    k = p;
+    while (i < n1 && j < n2) {
+        if (L[i] <= M[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = M[j];
+            j++;
+        }
+        k++;
     }
-  }
-  print(b, high);
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        arr[k] = M[j];
+        j++;
+        k++;
+    }
 }
 void merge_sort(int array[], int low, int high){
   if(low < high){
@@ -51,6 +88,8 @@ int main(){
   printf("Unsorted Array: ");
   print(a, n-1);
   merge_sort(a, 0,n-1);
+  printf("Sorted Array: ");
+  print(a, n-1);
   printf("%d", n);
   return 0;
 }
