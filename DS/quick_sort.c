@@ -14,11 +14,11 @@ int portion(int a[], int p, int q){
   int i = p+1;
   int j = q;
   while(1){
-    while(a[i] < a[p]){
+    while(a[i] < a[j]){
       i++;
-    }
-    while(a[j] >= a[p]){
-      j--;
+        while(a[j] >= a[p]){
+          j--;
+        }
     }
     if(i < j){
       swap(&a[i], &a[j]);
