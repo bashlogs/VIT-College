@@ -9,18 +9,18 @@ void print(int array[], int n){
   printf("\n");
 }
 
-int merge(int a[], int low, int mid, int high){
+void merge(int a[], int low, int mid, int high){
   int i = low;
   int j = mid + 1;
   int k = 0;
   int b[high];
-  while( i<=mid && j <= high){
+  while( i<=mid && j<=high){
     if(a[i] > a[j]){
       b[k] = a[j];
       j++;
     }
     else{
-      b[k] = a[j];
+      b[k] = a[i];
       i++;
     }
     k++;
@@ -35,10 +35,9 @@ int merge(int a[], int low, int mid, int high){
       b[k++] = a[i];
     }
   }
-
   print(b, high);
 }
-int merge_sort(int array[], int low, int high){
+void merge_sort(int array[], int low, int high){
   if(low < high){
     int mid = (low+high) / 2;
     merge_sort(array, low, mid);
