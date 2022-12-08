@@ -55,6 +55,7 @@ void quicksort(struct stud array[], int low, int high){
 
 void printarray(struct stud array[], int n){
   for(int i=0;i<n;i++){
+    printf("\n\n%d Entry",i+1);
     printf("\nRoll No: %d ",array[i].roll_no);
     printf("\nName: %s ",array[i].name);
     printf("\ncgp: %f ",array[i].cgp);
