@@ -7,7 +7,7 @@ struct stud{
     int roll_no;
     char name[100];
     float cgp;
-};
+}s1[10], temp;
 
 void count(int a){
   if(a == 1){
