@@ -7,19 +7,17 @@ struct stud{
     int roll_no;
     char name[100];
     float cgp;
-}s1[10], temp;
+};
 
-void count(int a){
-  if(a == 1){
-  	printf("\nTotal No. of swaps: %d", a);
-  }
-  else{
-	  static int count = 0;
-	  count = count + 1;
-  }
+int fun()
+{
+  static int count = 0;
+  count++;
+  return count;
 }
 
 void swap(struct stud *a, struct stud *b){
+  fun();
   struct stud temp;
   temp = *a;
   *a = *b;
@@ -36,7 +34,7 @@ int portion(struct stud a[], int p, int q){
           j--;
         }
     }
-    if(a[i].roll_no < a[j].roll_no){
+    if(i < j){
       swap(&a[i], &a[j]);
     }
     else{
@@ -57,6 +55,7 @@ void quicksort(struct stud array[], int low, int high){
 
 void printarray(struct stud array[], int n){
   for(int i=0;i<n;i++){
+    printf("\n\n%d Entry",i+1);
     printf("\nRoll No: %d ",array[i].roll_no);
     printf("\nName: %s ",array[i].name);
     printf("\ncgp: %f ",array[i].cgp);
@@ -65,21 +64,24 @@ void printarray(struct stud array[], int n){
 }
 
 int main(){
-    struct stud s1[3] = {{43,"Mayur",43.24},{42,"Khadde",53.23},{93,"Mayur",43}};
-    int c=3;
-    // printf("Enter how many entry you want: ");
-    // scanf("%d",&c);
-    // for(int i=0;i<c;i++){
-    //     printf("%d Entry\n",i+1);
-    //     printf("Enter your roll no: ");
-    //     scanf("%d",&s1[i].roll_no);
-    //     printf("Enter your name: ");
-    //     scanf("%s",s1[i].name);
-    //     printf("Enter your cgp: ");
-    //     scanf("%f",&s1[i].cgp);
-    // }
-  quicksort(s1, 0, c-1);
-  printf("\n\nSorted Array: ");
+  struct stud s1[10];
+  int c=0;
+  printf("Enter how many number you want to enter: ");
+  scanf("%d",&c);
+  for(int i=0;i<c;i++){
+    printf("%d Entry\n",i+1);
+    printf("Enter your roll no: ");
+    scanf("%d",&s1[i].roll_no);
+    printf("Enter your name: ");
+    scanf("%s",s1[i].name);
+    printf("Enter your cgp: ");
+    scanf("%f",&s1[i].cgp);
+  }
+  printf("\nUnsorted array: ");
   printarray(s1, c);
+  quicksort(s1, 0, c-1);
+  printf("Sorted Array: ");
+  printarray(s1, c);
+  printf("\nNumber of Swaps: %d", fun());
   return 0;
 }

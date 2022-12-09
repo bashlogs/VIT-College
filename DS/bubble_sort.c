@@ -7,7 +7,7 @@ struct stud{
 } s1[10], temp;
 
 int main(){
-    int c=0, i=0, pass=0, swap;
+    int c=0, i=0, pass=0, swap = 0;
 
     printf("Enter how many entry you want: ");
     scanf("%d",&c);
