@@ -2,9 +2,7 @@ package mypkg;
 import java.io.*;
 
 public class OS {
-
-
-    //Core data structures for Operating System
+    //Notation
     private char [][]memory= new char[100][4];
     private char []buffer= new char[40];
     private char []R=new char[4];
@@ -13,14 +11,13 @@ public class OS {
     private int T;
     private int SI;
 
-    //Non core data structures
     private int memory_used;
     private int data_card_skip=0;
     private String input_file;
     private String output_file;
     private  FileReader input;
-    private BufferedReader fread;
     private  FileWriter output;
+    private BufferedReader fread;
     private BufferedWriter fwrite;
 
     public void OS(String file,String output){
@@ -47,19 +44,19 @@ public class OS {
                 while((line=fread.readLine()) != null)
                 {
                     buffer=line.toCharArray();
-                    if(buffer[0]=='$'&& buffer[1]=='A'&&buffer[2]=='M'&& buffer[3]=='J') {
+                    if(buffer[0]=='$' && buffer[1]=='A' && buffer[2]=='M' && buffer[3]=='J') {
                         System.out.println("Program card detected");
                         init();
                         continue;
                     }
-                    else if(buffer[0]=='$'&& buffer[1]=='D'&&buffer[2]=='T'&& buffer[3]=='A')
+                    else if(buffer[0]=='$' && buffer[1]=='D' && buffer[2]=='T' && buffer[3]=='A')
                     {
                         System.out.println("Data card detected");
                         execute();
                         flag=2;
                         continue;
                     }
-                    else if(buffer[0]=='$'&& buffer[1]=='E'&&buffer[2]=='N'&& buffer[3]=='D')
+                    else if(buffer[0]=='$'&& buffer[1]=='E' && buffer[2]=='N' && buffer[3]=='D')
                     {
                         System.out.println("END card detected");
                         output.write("\n\n\n");
@@ -70,26 +67,19 @@ public class OS {
                     {   //abort;
                         System.out.println("Abort due to exceed memory usage");
                     }
-                   // System.out.println(line.length());
-
-                        //System.out.println("Mai load hora");
-                        System.out.println("ur program starts here");
-                        for (int i = 0; i < line.length();) {
-                            //System.out.println(buffer[i]);
-                            memory[memory_used][i%4]=buffer[i];
-                            i++;
-                            if(i%4==0)
-                                memory_used++;
-                            }
-
-
+                    System.out.println("Your program starts here");
+                    for (int i = 0; i < line.length();) {
+                      //System.out.println(buffer[i]);
+                      memory[memory_used][i%4]=buffer[i];
+                      i++;
+                      if(i%4==0)
+                        memory_used++;
+                    }
                 }
             output.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //System.out.println(memory_used);
-        //print_memory();
     }
     private void execute(){
         while(1<2)
@@ -152,7 +142,7 @@ public class OS {
                 masterMode();
             }
             else if(IR[0]=='P' && IR[1]=='D')
-            {
+
                 SI=2;
                 masterMode();
             }
