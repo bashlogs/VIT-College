@@ -224,7 +224,9 @@ public class OS {
     }
     public void print_memory(){
         for(int i=0;i<100;i++) {
-            System.out.println("memory["+i+"] "+new String(memory[i]));
+          for(int j=0;j<4;j++){
+            System.out.println("memory["+i+"] "+new String(memory[i][j]));
+          }
         }
     }
 }
