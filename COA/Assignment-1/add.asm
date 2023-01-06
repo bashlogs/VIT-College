@@ -1,22 +1,20 @@
 section .data
-  msg db "", 10
- len: equ $ - msg
+  msg db 0, 10
+
 section .text
   global _start
 
 _start:
-  mov rax, 00
-  mov rdi, 0
-  mov rsi, msg
-  mov rdx, len
-  syscall
   
-  mov rax, 01
-  mov rdi, 01
-  mov rsi, msg
-  mov rdx, len
-  syscall
+  mov rax, 7
+  call _printRAXDigit
 
-  mov rax, 60
-  mov rdi, 0
+_printRAXDigit
+  mov rax, 48
+  mov [digit], al
+  mov ax, 1
+  mov rdi, 1
+  mov rsi, digit
+  mov rdx, 2
   syscall
+  ret
