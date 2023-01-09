@@ -32,34 +32,30 @@ char pop(){
     return stack[top--];
 }
 
-void pre2in(char *prefix){
-  char *e, op, a;
-  e = prefix;
-  int n = strlen(prefix);
-  char* data = (char*)malloc(2*n+1);
-  printf("Infix Expression is: ");
-  for(int i=0;i<n;i++){
-
-      if(e[i]=='+' || e[i]=='-' || e[i]=='*' || e[i]=='/'){
-        char x[2] = {pop(), '\0'};
-        char x1[2] = {pop(), '\0'};
-        sprintf(data, "(%s%c%s)",x1,e[i],x);
-        printf("%s\n", data);
-        push(data[0]);
+void pre_in(char* str)
+{
+   int n,i;
+   char a,b,op;
+   n=strlen(str);
+   printf("Infix expression is:\t");
+   for(i=0;i<n;i++)
+   {
+      if(str[i]=='+'||str[i]=='-'||str[i]=='*'||str[i]=='/')
+      {
+         push(str[i]);
       }
-      else{
-        push(e[i]);
-        //op=pop();
-        //a=e[i];
-        
-        //printf("%c%c",a,op);
+      else
+      {
+         op=pop();
+         a=str[i];
+         printf("%s%s",a,op);
       }
-    }
-  printf("%s",pop());
-  }
+   }
+   printf("%c\n",str[top--]);
+}
 int main(){
   char exp[20] = "+E-+DC+BA";
-  strrev(exp);
-  pre2in(exp);
+  //strrev(exp);
+  pre_in(exp);
   return 0;
 }
