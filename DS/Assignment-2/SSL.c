@@ -23,12 +23,14 @@ void insertion_at_first(struct node **head, int data){
   *head = new;
 }
 
-void insertion_at_end(struct node* n1, int data){
-  struct node* tail;
-  tail = n1;
-  struct node* new = NULL;
-  new = (struct node*)malloc(sizeof(struct node));
+void insertion_at_end(struct node** n1, int data){
+  struct node* tail = *n1;
+  struct node* new = (struct node*)malloc(sizeof(struct node));
+  new->next = NULL;
   new->data = data;
+  while(tail->next != NULL){
+    tail = tail->next;
+  }
   tail->next = new;
 }
 
@@ -125,7 +127,7 @@ int main(){
   printf("\n\nInsertion at first: ");
   display(head);
 
-  insertion_at_end(third, 20);
+  insertion_at_end(&head, 20);
   printf("\n\nInsertion at end: ");
   display(head);
 
