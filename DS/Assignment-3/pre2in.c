@@ -32,12 +32,12 @@ char pop(){
     return stack[top--];
 }
 
-void pre_in(char* str)
+void pre2in(char* str)
 {
    int n,i;
    char a,b,op;
    n=strlen(str);
-   printf("Infix expression is:\t");
+   printf("Prefix - Infix expression is: ");
    for(i=0;i<n;i++)
    {
       if(str[i]=='+'||str[i]=='-'||str[i]=='*'||str[i]=='/')
@@ -48,14 +48,43 @@ void pre_in(char* str)
       {
          op=pop();
          a=str[i];
-         printf("%s%s",a,op);
+         printf("%c%c",a,op);
       }
    }
    printf("%c\n",str[top--]);
 }
+
+void post2in(char str[])
+{
+   int n,i,j=0;
+   char a,b,op,x[20];
+   strrev(str);
+   n=strlen(str);
+  for(i=0;i<20;i++){
+    stack[i]='\0';
+  }
+   printf("Postfix - Infix expression is: ");
+   for(i=0;i<n;i++)
+   {
+      if(str[i]=='+'||str[i]=='-'||str[i]=='*'||str[i]=='/')
+      {
+         push(str[i]);
+      }
+      else
+      {
+         x[j++]=str[i];
+        printf("%c",x[j++]);
+         x[j++]=pop();
+        printf("%c",x[j++]);
+      }
+   }
+   x[j]=str[top--];
+}
+
 int main(){
   char exp[20] = "+E-+DC+BA";
   //strrev(exp);
-  pre_in(exp);
+  pre2in(exp);
+  post2in(exp);
   return 0;
 }
