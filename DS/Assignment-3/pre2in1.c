@@ -1,52 +1,87 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdio.h>
 
-#define MAX_SIZE 100
+char opnds[50][80], oprs[50];
+int topr = -1, topd = -1;
 
-char stack[MAX_SIZE];
-int top = -1;
-
-void push(char *c) {
-  if (top == MAX_SIZE - 1) {
-    printf("Error: stack overflow\n");
-  } else {
-    stack[++top] = *c;
-  }
+void pushd(char *opnd)
+{
+    strcpy(opnds[++topd], opnd);
+}
+char *popd()
+{
+    return (opnds[topd--]);
 }
 
-char pop() {
-  if (top == -1) {
-    printf("Error: stack underflow\n");
-    return '\0';
-  } else {
-    return stack[top--];
-  }
+void pushr(char opr)
+{
+    oprs[++topr] = opr;
 }
 
-char* prefix_to_infix(char* prefix) {
-  int i;
-  int n = strlen(prefix);
-  char* infix = (char*) malloc(2 * n + 1);
-  for (i = n - 1; i >= 0; i--) {
-    if (isalpha(prefix[i])) {
-      char data = prefix[i];
-      push(data);
-    } 
-    else {
-      char operand1[2] = { pop(), '\0' };
-      char operand2[2] = { pop(), '\0' };
-      sprintf(infix, "(%s%c%s)", operand1, prefix[i], operand2);
-      push(infix);
+char popr()
+{
+    return (oprs[topr--]);
+}
+int empty(int t)
+{
+    if (t == 0)
+        return (1);
+    return (0);
+}
+
+int main()
+{
+    char ch, str[50], opnd1[50], opnd2[50], opr[2];
+    int i = 0, k = 0, opndcnt = 0;
+    char prfx[50] = "/*+AB-CD";
+    printf("Given Prefix Expression : %s\n", prfx);
+    while ((ch = prfx[i++]) != '\0')
+    {
+        if (isalnum(ch))
+        {
+            str[0] = ch;
+            str[1] = '\0';
+            pushd(str);
+            opndcnt++;
+            if (opndcnt >= 2)
+            {
+                strcpy(opnd2, popd());
+                strcpy(opnd1, popd());
+                strcpy(str, "(");
+                strcat(str, opnd1);
+                ch = popr();
+                opr[0] = ch;
+                opr[1] = '\0';
+                strcat(str, opr);
+                strcat(str, opnd2);
+                strcat(str, ")");
+                pushd(str);
+                opndcnt -= 1;
+            }
+        }
+        else
+        {
+            pushr(ch);
+            if (opndcnt == 1)
+                opndcnt = 0;
+        }
     }
-  }
-  return infix;
-}
-
-int main() {
-  char prefix[] = "*-A/BC-/AKL";
-  printf("Prefix expression: %s\n", prefix);
-  printf("Infix expression: %s\n", prefix_to_infix(prefix));
-  return 0;
+    if (!empty(topd))
+    {
+        strcpy(opnd2, popd());
+        strcpy(opnd1, popd());
+        strcpy(str, "(");
+        strcat(str, opnd1);
+        ch = popr();
+        opr[0] = ch;
+        opr[1] = '\0';
+        strcat(str, opr);
+        strcat(str, opnd2);
+        strcat(str, ")");
+        pushd(str);
+    }
+    printf("Infix Expression: ");
+    printf("%s",opnds[topd]);
+    return 0;
 }
