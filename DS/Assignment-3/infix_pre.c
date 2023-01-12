@@ -10,21 +10,6 @@ void push(char x){
   stack[++top] = x;
 }
 
-char *strrev(char *str)
-{
-      char *p1, *p2;
-
-      if (! str || ! *str)
-            return str;
-      for (p1 = str, p2 = str + strlen(str) - 1; p2 > p1; ++p1, --p2)
-      {
-            *p1 ^= *p2;
-            *p2 ^= *p1;
-            *p1 ^= *p2;
-      }
-      return str;
-}
-
 char pop(){
   if(top == -1)
     return -1;
@@ -41,72 +26,45 @@ int priority(char x){
     return 0;
 }
 
-char* infix2pre(char* infix) {
-  int i, j;
-  char *e;
-  e = infix;
-  int n = strlen(infix);
-  char* prefix = (char*) malloc(n + 1);
-  while(*e != '\0') {
-    if (*e == '(') {
-      push(*e);
-    } else if (*e == ')') {
-      while (stack[top] != '(') {
-        prefix[j++] = pop();
-      }
-      pop();
-    } else if (isalpha(*e)) {
-      prefix[j++] = *e;
-    } else {
-      while (priority(stack[top]) >= priority(*e)) {
-        prefix[j++] = pop();
-      }
-      push(*e);
-    }
-    e++;
-  }
-  while (top != -1) {
-    prefix[j++] = pop();
-  }
-  prefix[j] = '\0';
-  return strrev(prefix);
-}
+void infixtoprefix(char *e)
+{
+    char prefix[20], *s, x;
+    printf("Infix Expression: %s",e);
+    char *infix = e;
+    int i = -1;
+    size_t size = sizeof(infix) / sizeof(infix[0]);
+    strrev(infix);
+    s = infix;
 
-char* infix2pre1(char* infix){
-  char *e, x=0, c;
-  e = infix;
-  int n=strlen(infix);
-  char* prefix = (char*)malloc(n+1);
-  while(*e != '\0'){
-    if(isalpha(*e)){
-      prefix[x++] = *e;
-    }
-    else if(*e == '('){
-      push(*e);
-    }
-    else if(*e == ')'){
-      while(stack[top] != '('){
-        prefix[x++] = pop();
-      }
-      pop();
-    }
-    else{
-      while(priority(stack[top]) >= priority(*e))
-        prefix[x++] = pop();
-      push(*e);
-    }
-    e++;
-  }
-  while (top != -1) {
-    prefix[x++] = pop();
-  }
-  prefix[x] = '\0';
-  return strrev(prefix);
-}
+    while (*s != '\0')
+    {
+        if (isalnum(*s))
+            prefix[++i] = *s;
+        else if (*s == ')')
+            push(*s);
+        else if (*s == '(')
+            while ((x = pop()) != ')')
+                prefix[++i] = x;
+        else
+        {
+            while (priority(stack[top]) >= priority(*s))
+                prefix[++i] = pop();
 
+            push(*s);
+        }
+        s++;
+    }
+    while (top != -1)
+        prefix[++i] = pop();
+
+    strrev(prefix);
+    prefix[++i] = '\0';
+
+    printf("\nPrefix Expression: %s", prefix);
+}
 
 int main(){
-  char exp[20] = "A+B-(C+D)+E";
-  printf(infix2pre1(exp));
+  char exp[] = "((A+B)*(C-D))/(E+F)";
+  infixtoprefix(exp);
   return 0;
 }

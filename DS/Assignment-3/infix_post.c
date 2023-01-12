@@ -24,6 +24,7 @@ int priority(char x){
   if(x == '*' || x == '/')
     return 2;
 }
+
 void infix2post(char* exp){
   char *e, x;
   e = exp;
@@ -50,8 +51,10 @@ void infix2post(char* exp){
     printf("%c",pop());
   }
 }
+
 int main(){
-  char exp[20] = "A*B-(C+D)+E";
+  char exp[20] = "((A+B)*(C-D))/(E+F)";
+  printf("Infix to Postfix: ");
   infix2post(exp);
   return 0;
 }

@@ -1,29 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 char stack[50];
 int top = -1;
-
-char *strrev(char *str)
-{
-    if (!str || ! *str)
-        return str;
-
-    int i = strlen(str) - 1, j = 0;
-
-    char ch;
-    while (i > j)
-    {
-        ch = str[i];
-        str[i] = str[j];
-        str[j] = ch;
-        i--;
-        j++;
-    }
-    return str;
-}
-
 void push(char ch)
 {
     stack[++top] = ch;
@@ -34,13 +13,14 @@ char pop()
 }
 void convert(char exp[])
 {
+    printf("Postfix expression is: %s",exp);
     int l, i, j = 0;
-    char a, b, op, tmp[20];
+    char a, b, op[20];
     strrev(exp);
     l = strlen(exp);
     for (i = 0; i < 50; i++)
         stack[i] = '\0';
-    printf("The Infix expression is : ");
+    printf("\nInfix expression is : ");
     for (i = 0; i < l; i++)
     {
         if (exp[i] == '+' || exp[i] == '-' || exp[i] == '*' || exp[i] == '/')
@@ -49,19 +29,18 @@ void convert(char exp[])
         }
         else
         {
-            tmp[j++] = exp[i];
-            tmp[j++] = pop();
+            op[j++] = exp[i];
+            op[j++] = pop();
         }
     }
-    tmp[j] = exp[top--];
-    strrev(tmp);
-    puts(tmp);
+    op[j] = exp[top--];
+    strrev(op);
+    printf("%s",op);
 }
- 
+
 int main()
 {
-    char exp[50]; 
+    char exp[50] = "AB+CD-*EF+/";
     convert(exp);
     return 0;
 }
-
