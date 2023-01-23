@@ -1,38 +1,40 @@
 #include <stdio.h>
 #include <stdbool.h>
 int main(){
-  int n=5, m=3;
-  int alloc[5][3] = {
-    {0,1,0},
-    {2,0,0},
-    {3,0,2},
-    {2,1,1},
-    {0,0,2}
-  };
-  printf("Enter how many number p1 you want to ent")
+  int n, m=3;
+  printf("Enter how many number processor you want to enter: ");
+  scanf("%d",&n);
+  int alloc[n][m];
   for(int i=0; i<n; i++){
-    printf("Enter for P%d: \n",i);
+    printf("\nenter for p%d \n",i+1);
     for(int j=0; j<m; j++){
-      printf("P1.1: ");
-      scanf("%d",alloc[n][m]);
+      printf("p%d.%d: ",i+1,j+1);
+      scanf("%d",&alloc[i][j]);
     }
   }
   int finish[n];
   for(int i=0; i<n; i++){
     finish[i] = 0;
   }
-
-  int max[5][3] = {
-    {7,5,3},
-    {3,2,2},
-    {9,0,2},
-    {2,2,2},
-    {4,3,3}
-  };
-
-  int need[n][m];
-  int avail[3] = {3,3,2};
   
+  int max[n][m];
+  printf("\nEnter the max limit of processors: ");
+  for(int i=0; i<n; i++){
+    printf("\nEnter max limit for p%d \n",i+1);
+    for(int j=0; j<m; j++){
+      printf("p%d.%d: ",i+1,j+1);
+      scanf("%d",&max[i][j]);
+    }
+  }
+  
+  int avail[m];
+  printf("\nEnter the avialable limit: \n");
+  for(int i=0; i<m; i++){
+    printf("Available %d: ",i+1);
+    scanf("%d",&avail[i]);
+  }
+
+  int need[n][m]; 
   for(int i=0; i<n; i++){
     for(int j=0;j<m; j++){
       need[i][j] = max[i][j] - alloc[i][j];
