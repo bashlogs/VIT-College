@@ -64,6 +64,7 @@ void display(struct node* head){
   else{
     for(int i=1;i<=height(head);i++){
       int a=15-i*2;
+      printf("Level %d: ",i);
       printlevel(head, i, a);
       printf("\n");
     }
@@ -135,7 +136,7 @@ int main(){
   printf("Insertion of Node \n");
   display(root);
   int n=height(root);
-  printf("Height of node = %d\n",n);
+  printf("Height of node = %d\n\n",n);
   printf("Deletion of node 12\n");
   deletion(root, 12);
   display(root);
