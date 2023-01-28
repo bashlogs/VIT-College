@@ -7,7 +7,7 @@ public class OS {
     private char []buffer= new char[40];
     private char []R=new char[4];
     private char []IR=new char[4];
-    private int IC;
+    private static int IC;
     private int T;
     private int SI;
 

@@ -231,6 +231,7 @@ public class OS {
         T=0;
         IC=0;
     }
+
     public void print_memory(){
         for(int i=0;i<300;i++) {
             System.out.println("memory["+i+"] "+new String(memory[i]));
