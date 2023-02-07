@@ -27,7 +27,7 @@ void swap(struct stud *a, struct stud *b){
 }
 
 int portion(struct stud a[], int p, int q){
-  int i = p+1;
+  int i = p;
   int j = q;
   while(1){
     while(a[i].roll_no < a[j].roll_no){
@@ -65,7 +65,7 @@ void printarray(struct stud array[], int n){
 }
 
 int main(){
-    struct stud s1[3] = {{43,"Mayur",43.24},{42,"Khadde",53.23},{93,"Mayur",43}};
+    struct stud s1[3] = {{42,"Mayur",43.24},{42,"Khadde",53.23},{93,"Mayur",43}};
     int c=3;
     // printf("Enter how many entry you want: ");
     // scanf("%d",&c);
