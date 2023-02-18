@@ -12,7 +12,8 @@ struct customer
     char firstname[20];
     char lastname[20];
     long int contactNo;
-    float amt;
+    float amt[4];
+    float total_amt;
     int weight;
     int wt;
     float order[4];
@@ -43,11 +44,12 @@ int main()
     //int order[4] = {0,0,0,0}; 
     start: printf("Welcome! \nEnter your personal details \n");
     details(c);
-    c[i].amt=0;
+    c[i].total_amt=0;
     c[i].wt=0;
     c[i].weight=0;
     int cnt = 1;
     for(int j=0;j<4;j++){
+      c[i].amt[j] = 0;
       c[i].order[j] = 0;
     }
     char *product[4]= {"Wheat","Rice","Olive Oil","Sugar"};
@@ -63,7 +65,8 @@ int main()
             printf("Enter quantity (in kg): ");
             scanf("%f",&amount);
             c[i].order[0] += amount;
-            c[i].amt=c[i].amt+30*amount;
+            c[i].amt[0]=c[i].amt[0]+30*amount;
+            c[i].total_amt=c[i].total_amt+30*amount;
             c[i].weight=c[i].weight+amount*1000;
             amount = round(amount);
             c[i].wt=c[i].wt+20*amount;
@@ -75,7 +78,8 @@ int main()
             printf("Enter quantity (in kg): ");
             scanf("%f",&amount);
             c[i].order[1] += amount;
-            c[i].amt=c[i].amt+30*amount;
+            c[i].amt[1]=c[i].amt[1]+35*amount;
+            c[i].total_amt=c[i].total_amt+35*amount;
             c[i].weight=c[i].weight+amount*1000;
             amount = round(amount);
             c[i].wt=c[i].wt+20*amount;
@@ -87,7 +91,8 @@ int main()
             printf("Enter quantity (in kg): ");
             scanf("%f",&amount);
             c[i].order[2] += amount;
-            c[i].amt=c[i].amt+20*amount;
+            c[i].amt[2]=c[i].amt[2]+25*amount;
+            c[i].total_amt=c[i].total_amt+25*amount;
             c[i].weight=c[i].weight+amount*1000;
             amount = round(amount);
             c[i].wt=c[i].wt+5*amount;
@@ -99,7 +104,8 @@ int main()
             printf("Enter quantity (in kg): ");
             scanf("%f",&amount);
             c[i].order[3] += amount;
-            c[i].amt=c[i].amt+50*amount;
+            c[i].total_amt=c[i].total_amt+50*amount;
+            c[i].amt[3]=c[i].amt[3]+50*amount;
             c[i].weight=c[i].weight+amount*1000;
             amount = round(amount);
             c[i].wt=c[i].wt+40*amount;
@@ -126,7 +132,7 @@ int main()
     
     printf("\n\t    **** GROCERY STORE BILL ****\n");
     printf("--------------------------------------------------------------\n");
-    printf("Name:%s %s                       Contact No: %ld              \n",c[i].firstname,c[i].lastname,c[i].contactNo);
+    printf("  Name:%s %s\t\tContact No: %ld              \n",c[i].firstname,c[i].lastname,c[i].contactNo);
     printf("--------------------------------------------------------------\n");
     printf("  Id\t  Product\t\tQuantity (KG)\t\tPrice  \n");
     printf("--------------------------------------------------------------\n");
@@ -135,14 +141,14 @@ int main()
         continue;
       }
       else{
-        printf("  %d\t  %s           \t%.2f kg  \t\t%.2f  \n", cnt, product[j], c[i].order[j], c[i].amt);
+        printf("  %d\t  %s           \t%.2f kg  \t\t%.2f  \n", cnt, product[j], c[i].order[j], c[i].amt[j]);
         printf("--------------------------------------------------------------\n");
         cnt++;
       }      
     }
-    printf("  Total product %d \t\tTotal amount    %.2f\n", cnt, c[i].amt);
+    printf("  Total product %d \t\tTotal amount    %.2f Rs\n", cnt, c[i].total_amt);
     printf("--------------------------------------------------------------\n");
-    printf("                   \t\tTotal Weight   %d\n", c[i].weight);
+    printf("                   \t\tTotal Weight    %d gm\n", c[i].weight);
     printf("--------------------------------------------------------------\n");
 
     /*printf("\nYour amount is: Rs %.2f ", c[i].amt);
@@ -210,7 +216,7 @@ void cancel(struct customer c[],int no, int l)
        {
 	strcpy(c[j].firstname,empty);
   strcpy(c[j].lastname, empty);
-            c[j].amt=0;
+            c[j].total_amt=0;
             c[j].wt=0;
             c[j].contactNo=0;
             break;
@@ -278,7 +284,7 @@ void query(struct customer c[], char str[MAX_LEN])
 
   char buf[1024] = {};
   char query_string[] = {"INSERT INTO customer(firstname, lastname, phone_no, orders, bill, weight, time, status) VALUES('%s','%s',%ld,'%s',%.2f,%d,%d,'Pending')"};
-  sprintf(buf, query_string,c[i].firstname,c[i].lastname,c[i].contactNo,str,c[i].amt,c[i].weight,c[i].wt);
+  sprintf(buf, query_string,c[i].firstname,c[i].lastname,c[i].contactNo,str,c[i].total_amt,c[i].weight,c[i].wt);
 
   if (mysql_query(con, buf))
   {
@@ -362,24 +368,20 @@ void display(){
   }
 
   int num_fields = mysql_num_fields(result);
-  int a=0;
+  int waiting=0;
   MYSQL_ROW row;
   int sec = 0;
   int variable;
   while ((row = mysql_fetch_row(result)))
   {
-      a += 1;
-      for(int i = 1; i < 3; i++)
-      {
-          //printf("%s ", row[i] ? row[i] : "NULL");
-          char *s = row[7];
-          sscanf(s, "%d", &variable);
-      }
+      waiting += 1;
+      //printf("%s ", row[i] ? row[i] : "NULL");
+      char *s = row[7];
+      sscanf(s, "%d", &variable);
       sec = sec + variable;
   }
-
   sec = round(sec/60);
-  printf("  Waiting No %d \t\tWaiting time: %d min\n", a, sec);
+  printf("  Waiting No %d \t\tWaiting Time:   %d min\n", waiting, sec);
   printf("--------------------------------------------------------------\n");
   printf("\n"); 
   //printf("\nYour waiting no. is: %d",a);

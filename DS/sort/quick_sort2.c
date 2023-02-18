@@ -45,6 +45,32 @@ int portion(struct stud a[], int p, int q){
   return j;
 }
 
+int portion2(int arr[], int p, int q){
+  
+    int i = p, j = q;
+    int temp;
+    int pivot = (p + q) / 2;
+    while (i <= j)
+    {
+      while (arr[i] < pivot)
+        i++;
+      while (arr[j] > pivot)
+        j--;
+      if (i <= j)
+      {
+        temp = arr[i]; 
+        arr[i] = arr[j];
+        arr[j] = temp;
+        i++;
+        j--;
+      }
+    }
+    if (p < j)
+      portion2(arr, p, j);
+    if (i < q)
+      portion2(arr, i, q);
+}
+
 void quicksort(struct stud array[], int low, int high){
   if(low < high){
     int pi = portion(array, low, high);
@@ -79,7 +105,7 @@ int main(){
   }
   printf("\nUnsorted array: ");
   printarray(s1, c);
-  quicksort(s1, 0, c-1);
+  portion2(s1, 0, c-1);
   printf("Sorted Array: ");
   printarray(s1, c);
   printf("\nNumber of Swaps: %d", fun());

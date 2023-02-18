@@ -11,7 +11,7 @@ void swap(int *a, int *b){
 }
 
 int portion(int a[], int p, int q){
-  int i = p+1;
+  int i = p;
   int j = q;
   while(1){
     while(a[i] < a[j]){
