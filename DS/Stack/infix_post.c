@@ -54,7 +54,8 @@ void infix2post(char* exp){
 
 int main(){
   char exp[20] = "((A+B)*(C-D))/(E+F)";
-  printf("Infix to Postfix: ");
+  printf("Infix: %s",exp);
+  printf("\nPostfix: ");
   infix2post(exp);
   return 0;
 }
