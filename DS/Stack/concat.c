@@ -70,12 +70,14 @@ void compare(char data[], char data2[]){
   }
   for(int i=0,y=strlen(data)+strlen(data2); i<strlen(data); i++, y--){
     if(pop() != pop1()){
-      printf("\nBoth strings are not same");
       check=0;
     }
   }
   if(check==1){
     printf("\nBoth string are same");
+  }
+  else{
+    printf("\nBoth strings are not same");
   }
 }
 

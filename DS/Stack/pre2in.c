@@ -1,75 +1,87 @@
 #include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include <ctype.h>
+#include <stdio.h>
 
-char stack[20];
-int top = -1;
+char opnds[50][80], oprs[50];
+int topr = -1, topd = -1;
 
-void push(char x){
-  stack[++top] = x;
-}
-
-char pop(){
-  if(top == -1)
-    return -1;
-  else
-    return stack[top--];
-}
-
-void pre2in(char* str)
+void pushd(char *opnd)
 {
-   int n,i;
-   char a,b,op;
-   n=strlen(str);
-   printf("Prefix - Infix expression is: ");
-   for(i=0;i<n;i++)
-   {
-      if(str[i]=='+'||str[i]=='-'||str[i]=='*'||str[i]=='/')
-      {
-         push(str[i]);
-      }
-      else
-      {
-         op=pop();
-         a=str[i];
-         printf("%c%c",a,op);
-      }
-   }
-   printf("%c\n",str[top--]);
+    strcpy(opnds[++topd], opnd);
 }
-
-void post2in(char str[])
+char *popd()
 {
-   int n,i,j=0;
-   char a,b,op,x[20];
-   strrev(str);
-   n=strlen(str);
-  for(i=0;i<20;i++){
-    stack[i]='\0';
-  }
-   printf("Postfix - Infix expression is: ");
-   for(i=0;i<n;i++)
-   {
-      if(str[i]=='+'||str[i]=='-'||str[i]=='*'||str[i]=='/')
-      {
-         push(str[i]);
-      }
-      else
-      {
-         x[j++]=str[i];
-        printf("%c",x[j++]);
-         x[j++]=pop();
-        printf("%c",x[j++]);
-      }
-   }
-   x[j]=str[top--];
+    return (opnds[topd--]);
 }
 
-int main(){
-  char exp[20] = "+E-+DC+BA";
-  //strrev(exp);
-  pre2in(exp);
-  post2in(exp);
-  return 0;
+void pushr(char opr)
+{
+    oprs[++topr] = opr;
+}
+
+char popr()
+{
+    return (oprs[topr--]);
+}
+int empty(int t)
+{
+    if (t == 0)
+        return (1);
+    return (0);
+}
+
+int main()
+{
+    char ch, str[50], opnd1[50], opnd2[50], opr[2];
+    int i = 0, k = 0, opndcnt = 0;
+    char prfx[50] = "/*+AB-CD";
+    printf("Given Prefix Expression : %s\n", prfx);
+    while ((ch = prfx[i++]) != '\0')
+    {
+        if (isalnum(ch))
+        {
+            str[0] = ch;
+            str[1] = '\0';
+            pushd(str);
+            opndcnt++;
+            if (opndcnt >= 2)
+            {
+                strcpy(opnd2, popd());
+                strcpy(opnd1, popd());
+                strcpy(str, "(");
+                strcat(str, opnd1);
+                ch = popr();
+                opr[0] = ch;
+                opr[1] = '\0';
+                strcat(str, opr);
+                strcat(str, opnd2);
+                strcat(str, ")");
+                pushd(str);
+                opndcnt -= 1;
+            }
+        }
+        else
+        {
+            pushr(ch);
+            if (opndcnt == 1)
+                opndcnt = 0;
+        }
+    }
+    if (!empty(topd))
+    {
+        strcpy(opnd2, popd());
+        strcpy(opnd1, popd());
+        strcpy(str, "(");
+        strcat(str, opnd1);
+        ch = popr();
+        opr[0] = ch;
+        opr[1] = '\0';
+        strcat(str, opr);
+        strcat(str, opnd2);
+        strcat(str, ")");
+        pushd(str);
+    }
+    printf("Infix Expression: ");
+    printf("%s",opnds[topd]);
+    return 0;
 }

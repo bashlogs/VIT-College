@@ -1,4 +1,5 @@
 #include<stdio.h>
+#include<conio.h>
 #include<string.h>
 #include<stdlib.h>
 # define MAX 20
@@ -17,9 +18,8 @@ void pre_post()
    int n,i,j=0; char c[20];
    char a,b,op;
    printf("Enter the prefix expression: ");
-   scanf("%s",str);
+   gets(str);
    n=strlen(str);
-    printf("%d",n);
    for(i=0;i<MAX;i++)
    stack[i]='\0';
    printf("Postfix expression is:\t");
@@ -30,12 +30,12 @@ void pre_post()
          push(str[i]);
       }
       else
-      { 
-        c[j++]=str[i];
-        while((stack[top] =='+') || (stack[top]=='-') || (stack[top] == '*') || (stack[top] == '/') && (stack[top] == 0))
+      { c[j++]=str[i];
+        while((top!=-1)&&(stack[top]=='@'))
         {
-            c[j++]=pop();
+            a=pop(); c[j++]=pop();
         }
+        push('@');
       }
    }
    c[j]='\0';
@@ -44,4 +44,5 @@ void pre_post()
 int main()
 {
     pre_post();
+    ///*+AB-CD+EF
 }
