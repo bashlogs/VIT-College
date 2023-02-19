@@ -75,7 +75,7 @@ void display(struct node* head){
 struct node* getmin(struct node* root){
   while(root->left != NULL){
     root = root->left;
-  }
+  } 
   return root;
 }
 
