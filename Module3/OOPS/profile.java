@@ -339,6 +339,7 @@ public class profile extends JFrame implements ActionListener
                 qual = "Other";
             }
 
+
 	    	if(((t1.getText()).equals("")))
 	        {
 		        JOptionPane.showMessageDialog(this,"* Detail are Missing !","Warning!!!",JOptionPane.WARNING_MESSAGE);
