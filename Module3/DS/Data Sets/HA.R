@@ -2,7 +2,7 @@ library(ggplot2)
 theme_set(theme_bw())
 
 data <- read.csv('data.csv')
-head(data)
+View(data)
 # Draw plot
 ggplot(data, aes(x=Date, y=Total)) + 
   geom_bar(stat="identity", width=.5, fill="tomato") + 
@@ -36,6 +36,24 @@ ggplot(df_m, aes(x=Date, y=Total, group=1)) +
                breaks = brks) +  # change to monthly ticks and labels
   theme(axis.text.x = element_text(angle = 90, vjust=1),  # rotate x axis text
         panel.grid.minor = element_blank())  # turn off minor grid
+
+
+# Removing Duplicate
+data <- unique(data)
+
+# Remove rows with missing data
+data <- na.omit(data)
+
+# Fill missing values with a specific value
+#data$column[is.na(data$column)] <- value
+
+# Identify and remove outliers
+
+
+
+
+
+
 
 
 

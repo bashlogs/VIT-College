@@ -62,8 +62,14 @@ void printArray(int arr[], int size) {
 }
 
 int main() {
-  int arr[] = {6, 5, 12, 10, 9, 1};
-  int size = sizeof(arr) / sizeof(arr[0]);
+  printf("Enter the size of the array: ");
+  int size;
+  scanf("%d",&size);
+  int arr[size];
+  printf("Enter the elements: ");
+  for(int i=0;i<size;i++){
+    scanf("%d",&arr[i]);
+  }
   printf("Unsorted Array: ");
   printArray(arr, size);
   mergeSort(arr, 0, size - 1);
